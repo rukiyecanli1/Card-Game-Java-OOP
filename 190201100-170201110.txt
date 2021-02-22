@@ -1,0 +1,1743 @@
+
+package kartoyunu_prolab_proje2;
+
+import java.util.ArrayList;
+
+public abstract class Oyuncu {
+    
+	private String oyuncuAdi;
+	private  int skor=0;
+	
+	public Oyuncu(){
+	}
+	
+	public Oyuncu(String oyuncuAdi,int skor) {
+         this.oyuncuAdi=oyuncuAdi;
+         this.skor=skor;
+               
+	}
+
+    public String getOyuncuAdi() {
+        return oyuncuAdi;
+    }
+
+    public void setOyuncuAdi(String oyuncuAdi) {
+        this.oyuncuAdi = oyuncuAdi;
+    }
+
+    public int getSkor() {
+        return skor;
+    }
+
+    public void setSkor(int skor) {
+        this.skor = skor;
+    }
+	
+ 
+	
+  public int skorGöster() {
+	  return this.skor;
+  }
+	 
+  public  abstract Futbolcu fKartSec(ArrayList<Futbolcu>futListe) ;
+	 
+  public abstract Basketbolcu bKartSec(ArrayList<Basketbolcu>basListe) ;
+    
+ 
+ }
+
+
+
+package kartoyunu_prolab_proje2;
+
+import java.util.ArrayList;
+public class Bilgisayar extends Oyuncu {
+   
+        
+        
+	public Bilgisayar() {
+		super();
+	}
+
+	public Bilgisayar(String oyuncuAdi, int skor) {
+		super(oyuncuAdi, skor);
+	}
+
+   
+      @Override  
+      public Futbolcu fKartSec(ArrayList<Futbolcu>futListe){
+          Futbolcu secilenKart = null;
+          
+              int randomm=(int)(Math.random()*futListe.size());
+              if(futListe.get(randomm).kartKullanildiMi()==false){
+                  secilenKart=futListe.get(randomm);
+                 // futListe.remove(futListe.get(randomm));
+              return secilenKart;
+              }
+               else
+             return fKartSec(futListe);
+      }  
+       
+      @Override
+       public Basketbolcu bKartSec(ArrayList<Basketbolcu>basListe){
+          Basketbolcu secilenKart = null;
+              int randomm=(int)(Math.random()*basListe.size());
+              if(basListe.get(randomm).kartKullanildiMi()==false){
+                  secilenKart=basListe.get(randomm);
+                 // basListe.remove(basListe.get(randomm));
+          return secilenKart;
+              }
+                  else
+             return bKartSec(basListe);
+      } 
+	
+	
+}
+	
+
+package kartoyunu_prolab_proje2;
+
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+
+public class Kullanici extends Oyuncu {
+  
+
+    public Kullanici() {
+        super();
+    }
+
+    public Kullanici(String oyuncuAdi, int skor) {
+        super(oyuncuAdi, skor);
+    }
+
+   
+
+    @Override
+      public Futbolcu fKartSec(ArrayList<Futbolcu>futListe) {
+        Scanner sc=new Scanner(System.in);
+         System.out.print("Lütfen bir kart seciniz: ");
+        int sectigin = sc.nextInt();
+     return futListe.get(sectigin);
+     }
+    
+     
+
+    @Override
+    public Basketbolcu bKartSec(ArrayList<Basketbolcu>basListe) {
+        Scanner sc=new Scanner(System.in);
+         System.out.print("Lütfen bir kart seciniz: ");
+        int sectigin = sc.nextInt();
+     return basListe.get(sectigin);
+     }
+
+}
+
+
+package kartoyunu_prolab_proje2;
+
+
+public abstract class Sporcu {
+
+        String sporcuIsim;
+	String sporcuTakim;
+	boolean kartBilgisi;
+
+	public Sporcu() {
+	}
+    
+	public Sporcu(String sporcuIsim, String sporcuTakim) {
+		this.sporcuIsim=sporcuIsim;
+		this.sporcuTakim=sporcuTakim;
+	}
+	
+	
+	public String getSporcuIsim() {
+        return sporcuIsim;
+    }
+
+    public void setSporcuIsım(String sporcuIsim) {
+        this.sporcuIsim = sporcuIsim;
+    }
+
+    public String getSporcuTakim() {
+        return sporcuTakim;
+    }
+
+    public void setSporcuTakim(String sporcuTakim) {
+        this.sporcuTakim = sporcuTakim;
+    }
+       // public abstract boolean isKartBilgisi();
+	//public abstract void setKartBilgisi(boolean kartBilgisi) ;
+        
+        
+        
+        
+	public abstract void sporcuPuaniGöster();
+        
+        public abstract boolean kartKullanildiMi();
+      
+}
+
+
+
+package kartoyunu_prolab_proje2;
+
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+
+public class Futbolcu extends Sporcu {
+
+    /* private ImageIcon messi = new ImageIcon("src\\kartoyunu_prolab2_proje2.Resimler\\Messi.jpg");
+    private ImageIcon vanPersie = new ImageIcon("src\\kartoyunu_prolab2_proje2.Resimler\\VanPersie.jpg");
+    private ImageIcon ronaldo = new ImageIcon("src\\kartoyunu_prolab2_proje2.Resimler\\Ronaldo.jpg");
+    private String kaynak = "src\\kartoyunu_prolab2_proje2.Resimler\\Messi.png";
+    private ImageIcon ikon = new ImageIcon(kaynak); */
+  
+    private int penalti;
+    private int serbestVurus;
+    private int kaleciKarsiKarsiya;
+    private boolean kartBilgisi=false;
+    private String dosya1="src\\img\\messi.jpg";
+    private String dosya2="src\\img\\ronaldo.jpg";
+    private String dosya3="src\\img\\ibrahimovic.jpg";
+    private String dosya4="src\\img\\falcao.jpg";
+    private String dosya5="src\\img\\vanPersie.jpg";
+    private String dosya6="src\\img\\ribery.jpg";
+    private String dosya7="src\\img\\iniesta.jpg";
+    private String dosya8="src\\img\\xavi.jpg";
+    
+    
+    //parametresiz constructor
+    public Futbolcu() {
+        super();
+    }
+
+    //parametreli constuctor
+    public Futbolcu(String sporcuIsim, String sporcuTakim,int penalti,int serbestVurus,int kaleciKarsiKarsiya) {
+        super(sporcuIsim,sporcuTakim);
+        this.penalti=penalti;
+        this.serbestVurus=serbestVurus;
+        this.kaleciKarsiKarsiya=kaleciKarsiKarsiya;
+    }
+    
+    public int getPenalti() {
+        return penalti;
+    }
+
+    public void setPenalti(int penalti) {
+        this.penalti = penalti;
+    }
+
+    public int getSerbestVurus() {
+        return serbestVurus;
+    }
+
+    public void setSerbestVurus(int serbestVurus) {
+        this.serbestVurus = serbestVurus;
+    }
+
+    public int getKaleciKarsiKarsiya() {
+        return kaleciKarsiKarsiya;
+    }
+
+    public void setKaleciKarsiKarsiya(int kaleciKarsiKarsiya) {
+        this.kaleciKarsiKarsiya = kaleciKarsiKarsiya;
+    }
+
+
+    public String getDosya1() {
+        return dosya1;
+    }
+
+    public void setDosya1(String dosya1) {
+        this.dosya1 = dosya1;
+    }
+
+    public String getDosya2() {
+        return dosya2;
+    }
+
+    public void setDosya2(String dosya2) {
+        this.dosya2 = dosya2;
+    }
+
+    public String getDosya3() {
+        return dosya3;
+    }
+
+    public void setDosyaYolu3(String dosya3) {
+        this.dosya3 = dosya3;
+    }
+
+    public String getDosya4() {
+        return dosya4;
+    }
+
+    public void setDosyaYolu4(String dosya4) {
+        this.dosya4 = dosya4;
+    }
+
+    public String getDosya5() {
+        return dosya5;
+    }
+
+    public void setDosya5(String dosya5) {
+        this.dosya5 = dosya5;
+    }
+
+    public String getDosya6() {
+        return dosya6;
+    }
+
+    public void setDosya6(String dosya6) {
+        this.dosya6 = dosya6;
+    }
+
+    public String getDosya7() {
+        return dosya7;
+    }
+
+    public void setDosyaYolu7(String dosya7) {
+        this.dosya7 = dosya7;
+    }
+
+    public String getDosya8() {
+        return dosya8;
+    }
+
+    public void setDosya8(String dosya8) {
+        this.dosya8 = dosya8;
+    }
+
+    
+    @Override
+    public boolean kartKullanildiMi() {
+        if (kartBilgisi == true) 
+            return true;
+        else
+        return false;
+    }
+
+     @Override
+    public void sporcuPuaniGöster() {
+        System.out.println(this.penalti);
+        System.out.println(this.serbestVurus);
+        System.out.println(this.kaleciKarsiKarsiya);
+    }
+
+}
+
+
+package kartoyunu_prolab_proje2;
+
+public class Basketbolcu extends Sporcu {
+
+    private int ikilik;
+    private int ucluk;
+    private int serbestAtis;
+    static int kontrol = 0;
+    boolean kartBilgisi = false;
+
+    //parametresiz constructor
+    public Basketbolcu() {
+    }
+
+    //parametreli constuctor
+    public Basketbolcu(String sporcuIsim,String sporcuTakim,int ikilik,int ucluk,int serbestAtis) {
+        //üst sınıftan constructor çağırma ve değişken atama
+        super(sporcuIsim, sporcuTakim);
+        //"Messi","Barcelona"
+        this.ikilik=ikilik;
+        this.ucluk=ucluk;
+        this.serbestAtis=serbestAtis;
+    }
+
+  
+    
+    public int getIkilik() {
+        return ikilik;
+    }
+
+    public void setIkilik(int ikilik) {
+        this.ikilik = ikilik;
+    }
+
+    public int getUcluk() {
+        return ucluk;
+    }
+
+    public void setUcluk(int ucluk) {
+        this.ucluk = ucluk;
+    }
+
+    public int getSerbestAtis() {
+        return serbestAtis;
+    }
+
+    public void setSerbestAtis(int serbestAtis) {
+        this.serbestAtis = serbestAtis;
+    }
+
+   
+
+    public String getDosya(String dosya) {
+        return dosya;
+    }
+
+    @Override
+    public void sporcuPuaniGöster() {
+        System.out.println(this.ikilik);
+        System.out.println(this.ucluk);
+        System.out.println(this.serbestAtis);
+    }
+
+    
+    
+       @Override
+    public boolean kartKullanildiMi() {
+        if (kartBilgisi == true) 
+            return true;
+        else
+        return false;
+    }
+
+}
+
+
+package kartoyunu_prolab_proje2;
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+/**
+ * 
+ *
+ */
+public class Test extends JFrame {
+
+    
+    Futbolcu f=new Futbolcu();
+    Bilgisayar bs=new Bilgisayar();
+    public static void main(String[] args) {
+        Pencere pn = new Pencere();
+        Giris giris=new Giris();
+        giris.setVisible(true);
+        pn.setVisible(false);
+
+        Futbolcu messi = new Futbolcu("Messi", "Barcelona", 95, 95, 95);
+        Futbolcu ronaldo = new Futbolcu("Ronaldo", "Real Madrid", 99, 99, 99);
+        Futbolcu xavi = new Futbolcu("Xavi", "", 75, 60, 65);
+        Futbolcu ibrahimovic = new Futbolcu("Ibrahimovic", "", 75, 80, 95);
+        Futbolcu iniesta = new Futbolcu("Iniesta", "", 70, 80, 80);
+        Futbolcu falcao = new Futbolcu("Falcao", "", 90, 90, 80);
+        Futbolcu ribery = new Futbolcu("Ribery", "", 90, 80, 90);
+        Futbolcu vanPersie = new Futbolcu("VanPersie", "F", 89, 88, 90);
+        Basketbolcu lebron = new Basketbolcu("Lebron", "", 80, 50, 55);
+        Basketbolcu micheal = new Basketbolcu("Micheal", "", 60, 85, 70);
+        Basketbolcu magic = new Basketbolcu("Magic", "", 90, 85, 75);
+        Basketbolcu kareem = new Basketbolcu("Kareem", "", 80, 80, 90);
+        Basketbolcu kobe = new Basketbolcu("Kobe", "", 80, 85, 90);
+        Basketbolcu shaquille = new Basketbolcu("Shaquille", "", 90, 85, 75);
+        Basketbolcu bill = new Basketbolcu("Bill", "", 55, 70, 60);
+        Basketbolcu wilt = new Basketbolcu("Wilt", "", 65, 60, 70);
+        
+        ArrayList<Futbolcu> futKartListesi = new ArrayList<>();
+        futKartListesi.add(messi);
+        futKartListesi.add(ronaldo);
+        futKartListesi.add(xavi);
+        futKartListesi.add(ibrahimovic);
+        futKartListesi.add(iniesta);
+        futKartListesi.add(falcao);
+        futKartListesi.add(ribery);
+        futKartListesi.add(vanPersie);
+
+        ArrayList<Basketbolcu> basKartListesi = new ArrayList<>();
+        basKartListesi.add(lebron);
+        basKartListesi.add(micheal);
+        basKartListesi.add(magic);
+        basKartListesi.add(kareem);
+        basKartListesi.add(kobe);
+        basKartListesi.add(shaquille);
+        basKartListesi.add(bill);
+        basKartListesi.add(wilt);
+
+        Collections.shuffle(futKartListesi);
+        Collections.shuffle(basKartListesi);
+
+        ArrayList<Futbolcu> bilgisayarKart = new ArrayList<>();
+        ArrayList<Basketbolcu> bilgisayarKart2 = new ArrayList<>();
+        ArrayList<Futbolcu> kullaniciKart = new ArrayList<>();
+        ArrayList<Basketbolcu> kullaniciKart2 = new ArrayList<>();
+
+        for (int i = 0; i < futKartListesi.size(); i++) {
+            if (i < (futKartListesi.size()) / 2) {
+                bilgisayarKart.add(futKartListesi.get(i));
+                bilgisayarKart2.add(basKartListesi.get(i));
+                //  bilgisayarKart2 = basKartListesi; xxx
+
+            } else {
+                kullaniciKart.add(futKartListesi.get(i));
+                kullaniciKart2.add(basKartListesi.get(i));
+                // kullaniciKart2 = basKartListesi; xxx
+            }
+        }
+
+        System.out.print("Bilgisayarın elindeki futbolcular: ");
+        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+            System.out.print(bilgisayarKart.get(i).getSporcuIsim() + " ");
+        }
+        System.out.println();
+
+        System.out.print("Kullanicinin elindeki futbolcular: ");
+        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+            System.out.print(kullaniciKart.get(i).getSporcuIsim() + " ");
+        }
+        System.out.println();
+
+        System.out.print("Bilgisayarın elindeki basketbolcular: ");
+        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+            System.out.print(bilgisayarKart2.get(i).getSporcuIsim() + " ");
+        }
+        System.out.println();
+
+        System.out.print("Kullanicinin elindeki basketbolcular: ");
+        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+            System.out.print(kullaniciKart2.get(i).getSporcuIsim() + " ");
+        }
+        System.out.println("\n");
+
+        Bilgisayar bs = new Bilgisayar("Bilgisayar", 0);
+        Kullanici kc = new Kullanici("Kullanici", 0);
+        
+
+        futbolcuKarsilastir(bs, kc, bilgisayarKart, kullaniciKart, bilgisayarKart2, kullaniciKart2);
+
+    }
+
+    public static void futbolcuKarsilastir(Bilgisayar bs, Kullanici kc, ArrayList<Futbolcu> bsKart, ArrayList<Futbolcu> kcKart,
+            ArrayList<Basketbolcu> bsKart2, ArrayList<Basketbolcu> kcKart2) {
+
+        Futbolcu secilen = bs.fKartSec(bsKart);
+        System.out.println("\nSecilen Kart: "+secilen.getSporcuIsim()+" "+secilen.getPenalti()+", "+
+          secilen.getSerbestVurus()+", "+secilen.getKaleciKarsiKarsiya());
+        Futbolcu sectigin = kc.fKartSec(kcKart);
+         System.out.println("Sectiginiz Kart: "+sectigin.getSporcuIsim()+" "+sectigin.getPenalti()+", "+
+          sectigin.getSerbestVurus()+", "+sectigin.getKaleciKarsiKarsiya());
+        String pozisyon = PozisyonBilgisiAl("futbolcu");
+        System.out.println("Pozisyon bilgisi: " + pozisyon);
+        switch (pozisyon) {
+            case ("Penalti"):
+                if (secilen.getPenalti() > sectigin.getPenalti()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (f)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getPenalti() < sectigin.getPenalti()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (f)");
+                    kc.setSkor( kc.getSkor()+ 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getPenalti() == sectigin.getPenalti()) {
+                    System.out.println("bilgisayar kart = kullanıcı kart (f)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                }
+                break;
+            case ("Serbest vurus"):
+                if (secilen.getSerbestVurus() > sectigin.getSerbestVurus()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (f)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getSerbestVurus() < sectigin.getSerbestVurus()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (f)");
+                    kc.setSkor(kc.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor()); 
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if ((secilen.getSerbestVurus() == sectigin.getSerbestVurus())) {
+                    System.out.println("bilgisayar kart = kullanıcı kart (f)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("Bilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                }
+                break;
+            case ("Kaleci karsi karsiya"):
+                if (secilen.getKaleciKarsiKarsiya() > sectigin.getKaleciKarsiKarsiya()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (f)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getKaleciKarsiKarsiya() < sectigin.getKaleciKarsiKarsiya()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (f)");
+                    kc.setSkor(kc.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+
+                } else if (secilen.getKaleciKarsiKarsiya() == sectigin.getKaleciKarsiKarsiya()) {
+                    System.out.println("bilgisayar kart = kullanıcı kart (f)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki futbolcular: ");
+                    ListeyiYaz(bsKart);
+                    System.out.print("\nKullanicinin elindeki futbolcular: ");
+                    ListeyiYaz(kcKart);
+                    System.out.println("\n");
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                     if (!(bsKart2.isEmpty())) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                  /*  if (!(bsKart2.isEmpty()) && bsKart2.size() != 1) {
+                        basketbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                        
+                    } else {
+                        futbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }*/
+                }
+                break;
+
+        }
+    }
+    String pozisyon;
+
+    public static void basketbolcuKarsilastir(Bilgisayar bs, Kullanici kc, ArrayList<Basketbolcu> bsKart, ArrayList<Basketbolcu> kcKart,
+            ArrayList<Futbolcu> bsKart2, ArrayList<Futbolcu> kcKart2) {
+
+        int sayacIkilik = 0, sayacUcluk2 = 0, sayacSerbestAtis = 0;
+        String pozisyon;
+        Basketbolcu secilen = bs.bKartSec(bsKart);
+         System.out.println("\nSecilen Kart: "+secilen.getSporcuIsim()+" "+secilen.getIkilik()+", "+
+         secilen.getUcluk()+", "+secilen.getSerbestAtis());
+        Basketbolcu sectigin = kc.bKartSec(kcKart);
+          System.out.println("Sectiginiz Kart: "+sectigin.getSporcuIsim()+" "+sectigin.getIkilik()+", "+
+          sectigin.getUcluk()+", "+sectigin.getSerbestAtis());
+          pozisyon = PozisyonBilgisiAl("basketbolcu");
+          System.out.println("Pozisyon: " + pozisyon);
+        /*  if((secilen.getIkilik()==sectigin.getIkilik() || secilen.getUcluk()==sectigin.getUcluk() || secilen.getSerbestAtis()==secilen.getSerbestAtis())
+         && bsKart2.isEmpty() && bsKart.size()==1){
+         pozisyon=
+         }*/
+        switch (pozisyon) {
+            case ("Ikilik"):
+                if (secilen.getIkilik() > sectigin.getIkilik()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (b)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getIkilik() < sectigin.getIkilik()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (b)");
+                    kc.setSkor(kc.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getIkilik() == sectigin.getIkilik()) {
+                    System.out.println("bilgisayar kart = kullanıcı kart (b)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                     if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                }
+                break;
+            case ("Ucluk"):
+                if (secilen.getUcluk() > sectigin.getUcluk()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (b)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getUcluk() < sectigin.getUcluk()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (b)");
+                    kc.setSkor(kc.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getUcluk() == sectigin.getUcluk()) {
+                    System.out.println("bilgisayar kart = kullanıcı kart (b)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                }
+                break;
+            case ("Serbest atis"):
+                if (secilen.getSerbestAtis() > sectigin.getSerbestAtis()) {
+                    System.out.println("bilgisayar kart > kullanıcı kart (b)");
+                    bs.setSkor(bs.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getSerbestAtis() < sectigin.getSerbestAtis()) {
+                    System.out.println("kullanıcı kart > bilgisayar kart (b)");
+                    kc.setSkor(kc.getSkor() + 10);
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    bsKart.remove(secilen);
+                    kcKart.remove(sectigin);
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                } else if (secilen.getSerbestAtis() == sectigin.getSerbestAtis()) {
+
+                    System.out.println("bilgisayar kart = kullanıcı kart (b)");
+                    System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+                    System.out.print("Bilgisayarın elindeki basketbolcular: ");
+                    ListeyiYaz2(bsKart);
+                    System.out.print("\n" + "Kullanicinin elindeki basketbolcular: ");
+                    ListeyiYaz2(kcKart);
+                    System.out.println();
+                    System.out.println();
+                    if (bsKart.isEmpty() && bsKart2.isEmpty()) {
+                        System.out.println("\nBilgisayarın skoru: " + bs.skorGöster());
+                        System.out.println("Kullanıcın skoru: " + kc.skorGöster());
+                        KazananiYazdir(bs.getSkor(), kc.getSkor());
+                        System.exit(0);
+                    }
+                    if (!(bsKart2.isEmpty())) {
+                        futbolcuKarsilastir(bs, kc, bsKart2, kcKart2, bsKart, kcKart);
+                    } else {
+                        basketbolcuKarsilastir(bs, kc, bsKart, kcKart, bsKart2, kcKart2);
+                    }
+                }
+
+                break;
+        }
+    }
+
+    public static String PozisyonBilgisiAl(String sira) {
+        int random;
+        String secilen;
+        if (sira == "futbolcu") {
+            int penalti = 0;
+            int serbestVurus = 1;
+            int kaleciKarsiKarsiya = 2;
+            random = (int) (Math.random() * 3);
+            if (random == 0) {
+                secilen = "Penalti";
+            } else if (random == 1) {
+                secilen = "Serbest vurus";
+            } else {
+                secilen = "Kaleci karsi karsiya";
+            }
+
+            return secilen;
+        } else {
+            int ikilik = 0;
+            int ucluk = 1;
+            int serbestAtis = 2;
+            random = (int) (Math.random() * 3);
+            if (random == 0) {
+                secilen = "Ikilik";
+            } else if (random == 1) {
+                secilen = "Ucluk";
+            } else {
+                secilen = "Serbest atis";
+            }
+
+        }
+        return secilen;
+    }
+
+    public static void ListeyiYaz(ArrayList<Futbolcu> futLs) {
+        int i = 0;
+        while (i < futLs.size()) {
+            System.out.print(futLs.get(i).getSporcuIsim() + " ");
+            i++;
+        }
+    }
+
+    public static void ListeyiYaz2(ArrayList<Basketbolcu> basLs) {
+        int i = 0;
+        while (i < basLs.size()) {
+            if (i < basLs.size()) {
+                System.out.print(basLs.get(i).getSporcuIsim() + " ");
+                i++;
+            }
+        }
+    }
+
+     public static void KazananiYazdir(int skorBs, int skorKc) {
+        if (skorBs > skorKc) {
+            System.out.println("\n\n..BİLGİSAYAR KAZANDI!!..\n\n");
+        } else if (skorBs < skorKc) {
+            System.out.println("\n\n...SİZ KAZANDINIZ!!..\n\n");
+        } else {
+            System.out.println("\n\n...OYUN BERABERE...\n\n");
+        }
+    }
+     
+     
+     
+    /*
+    public static String PozisyonDegistir(String pozisyon) {
+        int random, ikilik, ucluk, serbestAtis;
+        if (pozisyon == "Ikilik") {
+            ucluk = 0;
+            serbestAtis = 1;
+            random = (int) (Math.random() * 2);
+            if (random == 0) {
+                return "Ucluk";
+            } else {
+                return "Serbest Atis";
+            }
+        } else if (pozisyon == "Ucluk") {
+            ikilik = 0;
+            serbestAtis = 1;
+            random = (int) (Math.random() * 2);
+            if (random == 0) {
+                return "İkilik";
+            } else {
+                return "Serbest Atis";
+            }
+        } else {
+            ikilik = 0;
+            ucluk = 1;
+            random = (int) (Math.random() * 2);
+            if (random == 0) {
+                return "Ikilik";
+            } else {
+                return "Ucluk";
+            }
+        }
+    }
+
+    public static void SonDurumKarsilastir(Bilgisayar bs, Kullanici kc,
+            Basketbolcu secilen, Basketbolcu sectigin, String pozisyon) {
+        int random;
+        String yeniPozisyon;
+        if ("Ikilik".equals(pozisyon)) {
+            int ucluk = 0;
+            int serbestAtis = 1;
+            random = (int) (Math.random() * 2);
+            if (random == 0) 
+                yeniPozisyon = "Ucluk";
+             else 
+                yeniPozisyon = "SerbestAtis";
+            
+        }
+        else if("Ucluk".equals(pozisyon)){
+            int ikilik=0;
+            int serbestAtis=1;
+            random=(int)(Math.random()*2);
+               if(random==0)
+                   yeniPozisyon="Ikilik";
+               else
+                   yeniPozisyon="SerbestAtis";
+        }
+        else if("Serbest atis".equals(pozisyon)){
+            int ikilik=0;
+            int ucluk=1;
+            random=(int)(Math.random()*2);
+               if(random==0)
+                   yeniPozisyon="Ikilik";
+               else
+                   yeniPozisyon="Ucluk";
+        }
+        System.out.println("Yeni Pozisyon: "+pozisyon);
+        if(pozisyon=="Ucluk" && secilen.getUcluk()==sectigin.getUcluk() ){
+           System.out.println("bilgisayar kart == kullanici kart (b)");
+           System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor());
+           System.out.println("Son Pozisyon Karşılaştırması:");
+            if(secilen.getSerbestAtis()==secilen.getSerbestAtis()){
+              System.out.println("bilgisayar kart == kullanici kart (b)");
+              KazananiYazdir(bs.getSkor(),kc.getSkor());
+            }
+            else if(secilen.getSerbestAtis()>sectigin.getSerbestAtis()){
+              System.out.println("bilgisayar kart > kullanici kart (b)"); 
+              bs.setSkor(bs.getSkor()+10);
+              System.out.println("Bilgisayarın skoru: "+bs.getSkor()+"\nKullanıcının skoru: "+kc.getSkor()); 
+        }}
+        if(pozisyon=="Serbest Atis" && secilen.getSerbestAtis()==sectigin.getSerbestAtis()){
+              System.out.println("bilgisayar kart == kullanici kart (b)");
+              System.out.println("Son Pozisyon Karşılaştırması:");
+        }
+    }
+    
+    */
+ 
+
+}
+
+
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package kartoyunu_prolab_proje2;
+
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
+import static java.util.Collections.list;
+
+/**
+ *
+ * @author user
+ */
+public class Giris extends javax.swing.JFrame {
+
+    
+    /**
+     * Creates new form Giris
+     */
+    public Giris() {
+        initComponents();
+         
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("BAŞLAT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel1.setText("OYUNA BAŞLAMAK İÇİN BAŞLAT BUTONUNA TIKLAYINIZ");
+        jLabel1.setToolTipText("");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(319, 319, 319)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(199, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(214, 214, 214))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(jLabel1)
+                .addGap(117, 117, 117)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(224, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        this.setVisible(false);
+        Pencere pn = new Pencere();
+        pn.setVisible(true);
+        // TODO add your handling code here:
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Giris().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    // End of variables declaration                   
+}
+
+
+
+package kartoyunu_prolab_proje2;
+
+import java.awt.Color;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
+import java.util.ArrayList;
+import java.util.Collections;
+import static java.util.Collections.list;
+import java.util.Random;
+import static kartoyunu_prolab_proje2.Test.futbolcuKarsilastir;
+
+public class Pencere extends javax.swing.JFrame {
+    Bilgisayar bot2;
+    
+    int[]dizi ;
+    
+   String dosya = "src\\img\\falcao.jpg";
+
+//   Futbolcu messi = new Futbolcu("Messi", "Barcelona", 95, 95, 95);
+//        Futbolcu ronaldo = new Futbolcu("Ronaldo", "Real Madrid", 99, 99, 99);
+//        Futbolcu xavi = new Futbolcu("Xavi", "", 75, 60, 65);
+//        Futbolcu ibrahimovic = new Futbolcu("Ibrahimovic", "", 75, 80, 95);
+//        Futbolcu iniesta = new Futbolcu("Iniesta", "", 70, 80, 80);
+//        Futbolcu falcao = new Futbolcu("Falcao", "", 90, 90, 80);
+//        Futbolcu ribery = new Futbolcu("Ribery", "", 90, 80, 90);
+//        Futbolcu vanPersie = new Futbolcu("VanPersie", "F", 89, 88, 90);
+//        Basketbolcu lebron = new Basketbolcu("Lebron", "", 80, 50, 55);
+//        Basketbolcu micheal = new Basketbolcu("Micheal", "", 60, 85, 70);
+//        Basketbolcu magic = new Basketbolcu("Magic", "", 90, 85, 75);
+//        Basketbolcu kareem = new Basketbolcu("Kareem", "", 80, 80, 90);
+//        Basketbolcu kobe = new Basketbolcu("Kobe", "", 80, 85, 90);
+//        Basketbolcu shaquille = new Basketbolcu("Shaquille", "", 90, 85, 75);
+//        Basketbolcu bill = new Basketbolcu("Bill", "", 55, 70, 60);
+//        Basketbolcu wilt = new Basketbolcu("Wilt", "", 65, 60, 70);
+//        {
+//        ArrayList<Futbolcu> futKartListesi = new ArrayList<>();
+//        futKartListesi.add(messi);
+//        futKartListesi.add(ronaldo);
+//        futKartListesi.add(xavi);
+//        futKartListesi.add(ibrahimovic);
+//        futKartListesi.add(iniesta);
+//        futKartListesi.add(falcao);
+//        futKartListesi.add(ribery);
+//        futKartListesi.add(vanPersie);
+//
+//        ArrayList<Basketbolcu> basKartListesi = new ArrayList<>();
+//        basKartListesi.add(lebron);
+//        basKartListesi.add(micheal);
+//        basKartListesi.add(magic);
+//        basKartListesi.add(kareem);
+//        basKartListesi.add(kobe);
+//        basKartListesi.add(shaquille);
+//        basKartListesi.add(bill);
+//        basKartListesi.add(wilt);
+//
+//        Collections.shuffle(futKartListesi);
+//        Collections.shuffle(basKartListesi);
+//
+//        ArrayList<Futbolcu> bilgisayarKart = new ArrayList<>();
+//        ArrayList<Basketbolcu> bilgisayarKart2 = new ArrayList<>();
+//        ArrayList<Futbolcu> kullaniciKart = new ArrayList<>();
+//        ArrayList<Basketbolcu> kullaniciKart2 = new ArrayList<>();
+//        
+//        for (int i = 0; i < futKartListesi.size(); i++) {
+//            if (i < (futKartListesi.size()) / 2) {
+//                bilgisayarKart.add(futKartListesi.get(i));
+//                bilgisayarKart2.add(basKartListesi.get(i));
+//                //  bilgisayarKart2 = basKartListesi; xxx
+//
+//            } else {
+//                kullaniciKart.add(futKartListesi.get(i));
+//                kullaniciKart2.add(basKartListesi.get(i));
+//                // kullaniciKart2 = basKartListesi; xxx
+//            }
+//        }
+//
+//        System.out.print("Bilgisayarın elindeki futbolcular: ");
+//        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+//            System.out.print(bilgisayarKart.get(i).getSporcuIsim() + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("Kullanicinin elindeki futbolcular: ");
+//        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+//            System.out.print(kullaniciKart.get(i).getSporcuIsim() + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("Bilgisayarın elindeki basketbolcular: ");
+//        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+//            System.out.print(bilgisayarKart2.get(i).getSporcuIsim() + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("Kullanicinin elindeki basketbolcular: ");
+//        for (int i = 0; i < futKartListesi.size() / 2; i++) {
+//            System.out.print(kullaniciKart2.get(i).getSporcuIsim() + " ");
+//        }
+//        System.out.println("\n");
+//
+//        Bilgisayar bs = new Bilgisayar("Bilgisayar", 0);
+//        Kullanici kc = new Kullanici("Kullanici", 0);
+//        
+//        
+//        
+
+   
+    public String getDosya(String dosya) {
+        return dosya;
+    }
+    
+    
+   
+    public Pencere() {
+        initComponents();
+        setSize(2000,2000);
+         
+    }
+
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jButton6 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        text2 = new javax.swing.JTextField();
+        text3 = new javax.swing.JTextField();
+        jButton11 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6);
+        jButton6.setBounds(1520, 160, 160, 220);
+
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(1230, 190, 130, 170);
+
+        text2.setEditable(false);
+        text2.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        text2.setForeground(new java.awt.Color(255, 255, 255));
+        text2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        text2.setText("Kullanıcı");
+        text2.setAutoscrolls(false);
+        text2.setBorder(null);
+        text2.setOpaque(false);
+        text2.setSelectionColor(new java.awt.Color(255, 255, 255));
+        text2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(text2);
+        text2.setBounds(1440, 910, 320, 90);
+
+        text3.setEditable(false);
+        text3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        text3.setForeground(new java.awt.Color(255, 255, 255));
+        text3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        text3.setText("Bilgisayar");
+        text3.setAutoscrolls(false);
+        text3.setBorder(null);
+        text3.setOpaque(false);
+        text3.setSelectionColor(new java.awt.Color(255, 255, 255));
+        getContentPane().add(text3);
+        text3.setBounds(1400, 80, 320, 60);
+
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton11);
+        jButton11.setBounds(1520, 670, 160, 240);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wilt.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(1240, 600, 130, 170);
+
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(30, 190, 130, 170);
+
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+        jButton4.setBounds(190, 190, 130, 170);
+
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5);
+        jButton5.setBounds(360, 190, 130, 170);
+
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton7);
+        jButton7.setBounds(530, 190, 130, 170);
+
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton8);
+        jButton8.setBounds(750, 190, 130, 170);
+
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton9);
+        jButton9.setBounds(910, 190, 130, 170);
+
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton10);
+        jButton10.setBounds(1070, 190, 130, 170);
+
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ribery.jpg"))); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton12);
+        jButton12.setBounds(30, 600, 130, 170);
+
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ronaldo.jpg"))); // NOI18N
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton13);
+        jButton13.setBounds(200, 600, 130, 170);
+
+        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/vanpersie.jpg"))); // NOI18N
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton14);
+        jButton14.setBounds(370, 600, 130, 170);
+
+        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/xavi.jpg"))); // NOI18N
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton15);
+        jButton15.setBounds(540, 600, 130, 170);
+
+        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/kareem.png"))); // NOI18N
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton16);
+        jButton16.setBounds(770, 600, 130, 170);
+
+        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/magic.png"))); // NOI18N
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton17);
+        jButton17.setBounds(920, 600, 130, 170);
+
+        jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/shaquille.png"))); // NOI18N
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton18);
+        jButton18.setBounds(1080, 600, 130, 170);
+
+        pack();
+    }// </editor-fold>                        
+    public void nameActionPerformed(java.awt.event.ActionEvent evt){
+      
+        
+    }
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+//        jButton1.setVisible(false);
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bill.png")));
+    }                                        
+
+    private void text2ActionPerformed(java.awt.event.ActionEvent evt) {                                      
+        
+    }                                     
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:        
+        jButton2.setVisible(false);
+    }                                        
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+  
+//        jButton3.setVisible(false);
+jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/falcao.jpg")));
+    }                                        
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//        jButton4.setVisible(false);
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ibrahimovic.jpg")));
+    }                                        
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//        jButton5.setVisible(false);
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iniesta.jpg")));
+    }                                        
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//        jButton7.setVisible(false);
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/messi.jpg")));
+    }                                        
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//        jButton8.setVisible(false);
+jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/kobe.png")));
+    }                                        
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//        jButton9.setVisible(false);
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lebron.png")));
+    }                                        
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+//        jButton10.setVisible(false);
+        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/michael.png")));
+    }                                         
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton12.setVisible(false);
+    }                                         
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton13.setVisible(false);
+    }                                         
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton14.setVisible(false);
+    }                                         
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton15.setVisible(false);
+    }                                         
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton16.setVisible(false);
+    }                                         
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton17.setVisible(false);
+    }                                         
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        jButton18.setVisible(false);
+    }                                         
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+//         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/falcao.jpg")));
+    }                                        
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
+
+   
+    public static void main(String args[]) {
+      
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Pencere.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Pencere.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Pencere.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Pencere.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Pencere().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JTextField text2;
+    private javax.swing.JTextField text3;
+    // End of variables declaration                   
+}
+
