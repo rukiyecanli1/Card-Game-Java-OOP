@@ -1,7 +1,0 @@
-https://www.baskent.edu.tr/~tkaracay/etudio/ders/prg/dataStructures/Collections/ClassArrayList01.pdf
-
-https://www.youtube.com/watch?v=PxQeFBTMZQg&ab_channel=KodlamaVakti (super())
-
-http://blog.emre.pw/java/java-iskambil-kagiti-dagitma-programi/
-
-https://www.ninjakod.com/java-arraylist-kullanimi-ve-klasik-arrayle-karsilastirma/
